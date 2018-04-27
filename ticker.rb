@@ -1,6 +1,12 @@
 class Ticker
 	attr_accessor :traded_ticker, :reference_ticker, :delimiter, :bid, :ask
 	def initialize(name, delimiter)
+		if name.respond_to?("each")
+			@traded_ticker=name[0]
+			@reference_ticker=name[1]
+			@delimiter = delimiter
+			return
+		end
 		if delimiter.nil?
 			@delimiter = name.gsub(/\w+/, '')
 		else
