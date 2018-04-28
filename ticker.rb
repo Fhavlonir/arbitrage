@@ -1,5 +1,5 @@
 class Ticker
-	attr_accessor :traded_ticker, :reference_ticker, :delimiter, :bid, :ask
+	attr_accessor :traded_ticker, :reference_ticker, :delimiter, :bid, :ask, :exchange
 	def initialize(name, delimiter)
 		if name.respond_to?("each")
 			@traded_ticker=name[0]
