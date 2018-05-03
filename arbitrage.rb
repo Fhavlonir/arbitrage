@@ -1,11 +1,11 @@
 require_relative 'ticker.rb'
 require_relative 'exchange.rb'
 
-southapi={name:"SouthXchange", url:'https://www.southxchange.com/api', delimiter:'/',
+southapi={name:"SouthXchange", url:'https://www.southxchange.com/api', delimiter:'/', reversed:false,
 	  prices:{url:'/prices', market:'Market', bid:'Bid', ask:'Ask'}}
-stocksapi={name:"stocks.exchange", url:'https://stocks.exchange/api2', delimiter:'_', 
+stocksapi={name:"stocks.exchange", url:'https://stocks.exchange/api2', delimiter:'_', reversed:false,
 	   prices:{url:'/ticker', market:'market_name', bid:'bid', ask:'ask'}}
-ogreapi={name:"TradeOgre", url:'https://tradeogre.com/api/v1', delimiter:'-', 
+ogreapi={name:"TradeOgre", url:'https://tradeogre.com/api/v1', delimiter:'-', reversed:true,
 	 prices:{url:'/markets', market:nil, bid:'bid', ask:'ask'}}
 ex = []
 ex << Exchange.new(southapi)
@@ -36,7 +36,7 @@ def findprofits(pairs)
 			end
 		end
 	end
-	trades = trades.sort_by {|e| e[2]}
+	trades.sort_by! {|e| -e[2]}
 	trades.each do |t|
 		output = "Buy #{t[0].to_s}" 
 		output += " "*(16 - output.length)
@@ -47,8 +47,10 @@ def findprofits(pairs)
 		output += " and sell for #{t[0].bid}" 
 		output += " "*(80 - output.length)
 		output += " at #{t[0].exchange}," 
-		output += " "*(110 - output.length)
-		output += " and make a profit of #{t[2]}%"
+		output += " "*(100 - output.length)
+		output += " and make a profit of "
+		output += " "*(10 - "#{t[2].round(2)}%".length)
+		output += "#{t[2].round(2)}%"
 		puts output
 	end
 end

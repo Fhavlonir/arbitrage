@@ -1,6 +1,6 @@
 class Ticker
 	attr_accessor :traded_ticker, :reference_ticker, :delimiter, :bid, :ask, :exchange
-	def initialize(name, delimiter)
+	def initialize(name, delimiter, reversed = false)
 		if name.respond_to?("each")
 			@traded_ticker=name[0]
 			@reference_ticker=name[1]
@@ -13,7 +13,11 @@ class Ticker
 			@delimiter = delimiter
 		end
 		unless name.nil? || @delimiter.nil?
-			@traded_ticker, @reference_ticker = name.split("#{@delimiter}")
+			if reversed
+				@reference_ticker, @traded_ticker= name.split("#{@delimiter}")
+			else
+				@traded_ticker, @reference_ticker = name.split("#{@delimiter}")
+			end
 		end
 	end
 	def update_ticker(bid, ask)

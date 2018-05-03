@@ -38,9 +38,9 @@ class Exchange
 
 
 	def addtickers(tickers=nil)
-		ticker = Ticker.new(tickers, api_config[:delimiter])
+		ticker = Ticker.new(tickers, api_config[:delimiter], reversed = api_config[:reversed])
 		ticker.exchange = self
-		@tickers[ticker.to_s] = ticker
+		@tickers[tickers.to_s] = ticker
 	end
 	def to_s
 		return api_config[:name]
